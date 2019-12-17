@@ -9,4 +9,8 @@ associated with R-groups (e.g., bioactivity)
 The code uses the [OEChem](https://www.eyesopen.com/oechem-tk) so you'll need a license to run it.
 
 There is an example MOL file with a single R group - I've hardcoded the program to look for `R1`. It 
-doesn't color the segments by gradient but that is relatively straightforward
+doesn't color the segments by gradient but that is relatively straightforward.
+
+The output of the script with the MOL file in this repository is
+
+![alt text](https://github.com/rajarshi/rgroup-pie/blob/master/MolWithWedgeChart.png)
