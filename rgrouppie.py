@@ -38,11 +38,7 @@ n_ring = len(vals)
 # Get the layer into which we will draw the pie chart
 layer = mdisp.GetLayer(oedepict.OELayerPosition_Below)
 
-# Set up pens
-pen_green = oedepict.OEPen(oechem.OELightGreen, oechem.OEBlack, oedepict.OEFill_On, 1.0)
-pen_red = oedepict.OEPen(oechem.OELightPurple, oechem.OEBlack, oedepict.OEFill_On, 1.0)
-pens = [pen_green, pen_red]
-
+# Set up gradients for segments
 gradients = [oechem.OELinearColorGradient(oechem.OEColorStop(0, oechem.OEWhite), oechem.OEColorStop(100, oechem.OEGreen)),
              oechem.OELinearColorGradient(oechem.OEColorStop(0, oechem.OEWhite), oechem.OEColorStop(100, oechem.OERed))]
 
