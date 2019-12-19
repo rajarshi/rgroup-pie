@@ -31,7 +31,7 @@ for atom in mol.GetAtoms():
 image = oedepict.OEImage(300, 300)
 
 # Draw pie segments
-vals = [[100, ">99", 87, 12],
+vals = [[100, ">99", 50, 12],
         [78, 12, 34, 77]]
 n_ring = len(vals)
 
@@ -43,13 +43,24 @@ pen_green = oedepict.OEPen(oechem.OELightGreen, oechem.OEBlack, oedepict.OEFill_
 pen_red = oedepict.OEPen(oechem.OELightPurple, oechem.OEBlack, oedepict.OEFill_On, 1.0)
 pens = [pen_green, pen_red]
 
+gradients = [oechem.OELinearColorGradient(oechem.OEColorStop(0, oechem.OEWhite), oechem.OEColorStop(100, oechem.OEGreen)),
+             oechem.OELinearColorGradient(oechem.OEColorStop(0, oechem.OEWhite), oechem.OEColorStop(100, oechem.OERed))]
+
 # Draw rings from outside inwards
 for ring_num in range(n_ring):
     starting_angle = START_ANGLE
     ring = vals[ring_num]
     for value in ring:
         radius = (n_ring - ring_num) * RADIUS_BASE
-        layer.DrawPie(r_coords, starting_angle, starting_angle + WEDGE_WIDTH, radius, pens[ring_num])
+
+        if isinstance(value, str) and ">" in value:
+            value_for_color = 100
+        else: value_for_color = value
+        gradient = gradients[ring_num]
+        color = gradient.GetColorAt(value_for_color)
+        pen = oedepict.OEPen(color, oechem.OEBlack, oedepict.OEFill_On, 1.0)
+
+        layer.DrawPie(r_coords, starting_angle, starting_angle + WEDGE_WIDTH, radius, pen)
 
         # Write value in segment - based on
         # https://docs.eyesopen.com/toolkits/cookbook/python/_downloads/properties2img.py
@@ -77,6 +88,7 @@ oegrapheme.OEAddGlyph(mdisp, glyph, oechem.OEHasMapIdx(1))
 
 # Render molecule
 oedepict.OERenderMolecule(image, mdisp)
+
 
 # Write out images
 oedepict.OEWriteImage("MolWithWedgeChart.svg", image)
